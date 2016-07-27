@@ -1,5 +1,7 @@
 enablePlugins(DockerPlugin)
 
+scalaVersion := "2.11.8"
+
 // Release configuration
 git.useGitDescribe := true
 git.baseVersion := "0.0.1"

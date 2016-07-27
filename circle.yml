@@ -2,6 +2,7 @@ machine:
   environment:
     SBT_VERSION: 0.13.11
     JAVA_OPTS: -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G
+    SCALA_VERSION: 2.11.8
 
 dependencies:
   pre:
