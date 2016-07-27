@@ -1,0 +1,27 @@
+machine:
+  environment:
+    SBT_VERSION: 0.13.11
+    JAVA_OPTS: -Xmx3G -XX:+UseConcMarkSweepGC -XX:+CMSClassUnloadingEnabled -XX:MaxPermSize=2G
+
+dependencies:
+  pre:
+    - mkdir $HOME/.bintray
+    - echo -e "realm = Bintray\nhost = dl.bintray.com\nuser = ${BINTRAY_USER}\npassword = ${BINTRAY_PASSWORD}" > $HOME/.bintray/.download_credentials
+    - echo -e "realm = Bintray API Realm\nhost = api.bintray.com\nuser = ${BINTRAY_USER}\npassword = ${BINTRAY_PASSWORD}" > $HOME/.bintray/.credentials
+    - wget --output-document=$HOME/bin/sbt-launch.jar https://repo.typesafe.com/typesafe/ivy-releases/org.scala-sbt/sbt-launch/"$SBT_VERSION"/sbt-launch.jar
+    - echo "java $JAVA_OPTS -jar \`dirname \$0\`/sbt-launch.jar \"\$@\"" > $HOME/bin/sbt
+    - chmod u+x $HOME/bin/sbt
+    - sbt update
+  cache_directories:
+    - "~/.ivy2"
+    - "~/.sbt"
+
+test:
+  override:
+    - sbt test
+
+deployment:
+  release:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - sbt publish
