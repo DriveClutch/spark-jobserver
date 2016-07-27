@@ -21,6 +21,7 @@ object JobServerBuild extends Build {
   )
 
   import Dependencies._
+  import JobServerRelease._
 
   lazy val akkaApp = Project(id = "akka-app", base = file("akka-app"),
     settings = commonSettings ++ Seq(
@@ -76,7 +77,7 @@ object JobServerBuild extends Build {
   //
   // NOTE: if we don't define a root project, SBT does it for us, but without our settings
   lazy val root = Project(id = "root", base = file("."),
-                    settings = commonSettings ++ rootSettings ++ dockerSettings
+                    settings = commonSettings ++ ourReleaseSettings ++ rootSettings ++ dockerSettings
                   ).aggregate(jobServer, jobServerApi, jobServerTestJar, akkaApp, jobServerExtras).
                    dependsOn(jobServer, jobServerExtras).disablePlugins(SbtScalariform)
 
@@ -199,11 +200,11 @@ object JobServerBuild extends Build {
   // Create a default Scala style task to run with compiles
   lazy val runScalaStyle = taskKey[Unit]("testScalaStyle")
 
-  lazy val commonSettings = Defaults.coreDefaultSettings ++ dirSettings ++ Seq(
+  lazy val commonSettings = Defaults.coreDefaultSettings ++ dirSettings ++ implicitlySettings ++ Seq(
     organization := "spark.jobserver",
     crossPaths   := true,
     crossScalaVersions := Seq("2.10.6","2.11.8"),
-    scalaVersion := sys.env.getOrElse("SCALA_VERSION", "2.11.8"),
+    scalaVersion := sys.env.getOrElse("SCALA_VERSION", "2.10.6"),
     publishTo    := Some(Resolver.file("Unused repo", file("target/unusedrepo"))),
     // scalastyleFailOnError := true,
     runScalaStyle := {
@@ -240,7 +241,9 @@ object JobServerBuild extends Build {
 
   lazy val publishSettings = Seq(
     licenses += ("Apache-2.0", url("http://choosealicense.com/licenses/apache/")),
-    bintrayOrganization := Some("spark-jobserver")
+    bintrayOrganization := Some("driveclutch"),
+    bintrayRepository := "clutch-public",
+    publishMavenStyle := false
   )
 
   // change to scalariformSettings for auto format on compile; defaultScalariformSettings to disable

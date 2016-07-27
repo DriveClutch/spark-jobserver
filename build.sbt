@@ -40,16 +40,3 @@ val showNextVersion = settingKey[String]("the future version once releaseNextVer
 val showReleaseVersion = settingKey[String]("the future version once releaseNextVersion has been applied to it")
 showReleaseVersion <<= (version, releaseVersion)((v,f)=>f(v))
 showNextVersion <<= (version, releaseNextVersion)((v,f)=>f(v))
-
-releaseProcess := Seq[ReleaseStep](
-  checkSnapshotDependencies,
-  inquireVersions,
-  setReleaseVersion,
-  tagRelease,
-  pushChanges
-)
-
-publishMavenStyle := false
-bintrayOrganization := Some("driveclutch")
-bintrayRepository := "clutch-common"
-bintrayOmitLicense := true
