@@ -1,6 +1,17 @@
 enablePlugins(DockerPlugin)
+enablePlugins(GitVersioning)
+enablePlugins(GitBranchPrompt)
+
+credentials += Credentials(Path.userHome / ".bintray" / ".download_credentials")
+resolvers += Resolver.url("clutch-public", url("https://dl.bintray.com/driveclutch/clutch-public/"))(Resolver.ivyStylePatterns)
+
 
 scalaVersion := "2.11.8"
+scalacOptions in Compile ++= Seq("-feature")
+
+logLevel in Global := Level.Warn
+logLevel in Test := Level.Info
+ivyLoggingLevel := UpdateLogging.Quiet
 
 // Release configuration
 git.useGitDescribe := true
