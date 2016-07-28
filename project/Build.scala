@@ -58,7 +58,7 @@ object JobServerBuild extends Build {
   ).dependsOn(akkaApp, jobServerApi).disablePlugins(SbtScalariform)
 
   lazy val jobServerTestJar = Project(id = "job-server-tests", base = file("job-server-tests"),
-                                      settings = commonSettings ++ jobServerTestJarSettings
+                                      settings = commonSettings ++ jobServerTestJarSettings ++ publishSettings
                                      ).dependsOn(jobServerApi).disablePlugins(SbtScalariform)
 
   lazy val jobServerApi = Project(id = "job-server-api",
@@ -67,7 +67,7 @@ object JobServerBuild extends Build {
 
   lazy val jobServerExtras = Project(id = "job-server-extras",
                                      base = file("job-server-extras"),
-                                     settings = commonSettings ++ jobServerExtrasSettings
+                                     settings = commonSettings ++ jobServerExtrasSettings ++ publishSettings
                                     ).dependsOn(jobServerApi, jobServer % "compile->compile; test->test")
                                     .disablePlugins(SbtScalariform)
 
@@ -201,7 +201,7 @@ object JobServerBuild extends Build {
   lazy val runScalaStyle = taskKey[Unit]("testScalaStyle")
 
   lazy val commonSettings = Defaults.coreDefaultSettings ++ dirSettings ++ Seq(
-    organization := "driveclutch",
+    organization := "spark.jobserver",
     crossPaths   := true,
     crossScalaVersions := Seq("2.10.6","2.11.8"),
     scalaVersion := sys.env.getOrElse("SCALA_VERSION", "2.11.8"),
@@ -240,10 +240,10 @@ object JobServerBuild extends Build {
   }
 
   lazy val publishSettings = Seq(
-    licenses += ("Apache-2.0", url("http://choosealicense.com/licenses/apache/")),
     bintrayOrganization := Some("driveclutch"),
     bintrayRepository := "clutch-public",
-    publishMavenStyle := false
+    publishMavenStyle := false,
+    bintrayOmitLicense := true
   )
 
   // change to scalariformSettings for auto format on compile; defaultScalariformSettings to disable
