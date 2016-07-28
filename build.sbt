@@ -53,3 +53,9 @@ val showNextVersion = settingKey[String]("the future version once releaseNextVer
 val showReleaseVersion = settingKey[String]("the future version once releaseNextVersion has been applied to it")
 showReleaseVersion <<= (version, releaseVersion)((v,f)=>f(v))
 showNextVersion <<= (version, releaseNextVersion)((v,f)=>f(v))
+
+publishMavenStyle := false
+bintrayOrganization := Some("driveclutch")
+bintrayRepository := "clutch-public"
+bintrayOmitLicense := true
+licenses += ("Apache-2.0", url("http://choosealicense.com/licenses/apache/"))
