@@ -201,7 +201,7 @@ object JobServerBuild extends Build {
   lazy val runScalaStyle = taskKey[Unit]("testScalaStyle")
 
   lazy val commonSettings = Defaults.coreDefaultSettings ++ dirSettings ++ Seq(
-    organization := "spark.jobserver",
+    organization := "driveclutch",
     crossPaths   := true,
     crossScalaVersions := Seq("2.10.6","2.11.8"),
     scalaVersion := sys.env.getOrElse("SCALA_VERSION", "2.11.8"),

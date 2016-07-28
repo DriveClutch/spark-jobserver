@@ -5,7 +5,6 @@ enablePlugins(GitBranchPrompt)
 credentials += Credentials(Path.userHome / ".bintray" / ".download_credentials")
 resolvers += Resolver.url("clutch-public", url("https://dl.bintray.com/driveclutch/clutch-public/"))(Resolver.ivyStylePatterns)
 
-
 scalaVersion := "2.11.8"
 scalacOptions in Compile ++= Seq("-feature")
 
