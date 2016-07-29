@@ -77,7 +77,7 @@ object JobServerBuild extends Build {
   //
   // NOTE: if we don't define a root project, SBT does it for us, but without our settings
   lazy val root = Project(id = "root", base = file("."),
-                    settings = commonSettings ++ ourReleaseSettings ++ rootSettings ++ dockerSettings
+                    settings = commonSettings ++ rootSettings ++ dockerSettings
                   ).aggregate(jobServer, jobServerApi, jobServerTestJar, akkaApp, jobServerExtras).
                    dependsOn(jobServer, jobServerExtras).disablePlugins(SbtScalariform)
 
@@ -205,7 +205,8 @@ object JobServerBuild extends Build {
     crossPaths   := true,
     crossScalaVersions := Seq("2.10.6","2.11.8"),
     scalaVersion := sys.env.getOrElse("SCALA_VERSION", "2.11.8"),
-    publishTo    := Some(Resolver.file("Unused repo", file("target/unusedrepo"))),
+    //publishTo    := Some(Resolver.file("Unused repo", file("target/unusedrepo"))),
+    //publishTo    := Some(Resolver.file("Unused repo", file("target/unusedrepo"))),
     // scalastyleFailOnError := true,
     runScalaStyle := {
       org.scalastyle.sbt.ScalastylePlugin.scalastyle.in(Compile).toTask("").value
@@ -243,7 +244,7 @@ object JobServerBuild extends Build {
     bintrayOrganization := Some("driveclutch"),
     bintrayRepository := "clutch-public",
     publishMavenStyle := false,
-    bintrayOmitLicense := true
+    licenses += ("Apache-2.0", url("http://choosealicense.com/licenses/apache/"))
   )
 
   // change to scalariformSettings for auto format on compile; defaultScalariformSettings to disable
